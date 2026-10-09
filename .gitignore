@@ -1,0 +1,42 @@
+# Azure Developer CLI
+.azure/
+.azure-cli-cache/
+
+# .NET
+bin/
+obj/
+*.user
+*.suo
+
+# Node / React SPA
+node_modules/
+dist/
+*.tsbuildinfo
+.env
+.env.local
+.env.production
+.env.*.local
+npm-debug.log*
+.npm-cache/
+
+# Generated Vite output (TypeScript config is the source)
+vite.config.js
+vite.config.d.ts
+
+# Azure Functions
+local.settings.json
+
+# Editor / OS
+.vs/
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Local transfer/archive copies
+*.zip

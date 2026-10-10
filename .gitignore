@@ -19,10 +19,6 @@ dist/
 npm-debug.log*
 .npm-cache/
 
-# Generated Vite output (TypeScript config is the source)
-vite.config.js
-vite.config.d.ts
-
 # Azure Functions
 local.settings.json
 

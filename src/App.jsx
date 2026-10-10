@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Nav from "./components/Nav.jsx";
 import Hero from "./components/Hero.jsx";
 import ScheduleBoard from "./components/ScheduleBoard.jsx";
@@ -19,8 +19,15 @@ export default function App() {
   const [focusId, setFocusId] = useState(null);
   const [runStates, setRunStates] = useState({});
   const [drawer, setDrawer] = useState(null);
+  const [navOpen, setNavOpen] = useState(false);
   const sources = useRef({});
   const startedAt = useRef({});
+
+  // Lock background scroll while the mobile flyout nav is open.
+  useEffect(() => {
+    document.body.style.overflow = navOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [navOpen]);
 
   function patchRun(personaId, patch) {
     setRunStates(prev => ({
@@ -84,7 +91,7 @@ export default function App() {
 
   return (
     <div className="app">
-      <Nav active={view} onSelect={setView} />
+      <Nav active={view} onSelect={setView} open={navOpen} onOpenChange={setNavOpen} />
       <main>
         <Hero
           activeAgent={activeAgent}

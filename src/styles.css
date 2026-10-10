@@ -8,7 +8,9 @@ html{scroll-padding-top:env(safe-area-inset-top,0px)}
   --triage:#1D9E75;--extractor:#E0931F;--validator:#7F77DD;--summary:#D4537E;--console:#F9FAFC;--scrim:rgba(20,22,31,.45);
   --sans:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14161F;--surface:#1C1F2B;--ink:#E6E7EE;--muted:#A0A4B8;--faint:#767B91;--line:#2C3040;--line-strong:#3B4054;--nav:#3A121E;--nav-active:#5A2031;--lens:#7FA2EC;--lens-soft:#1E2A45;--ok:#5CC99A;--ok-soft:#173327;--warn:#E7B45C;--warn-soft:#3A2D14;--console:#171A24;--scrim:rgba(0,0,0,.6)}}
+/* Intentionally no @media (prefers-color-scheme: dark) auto-switch — this project stays on the
+   cream/light theme across every device for brand consistency with the rest of the portfolio.
+   The explicit override below is kept in case a manual toggle is ever wanted later. */
 :root[data-theme="dark"]{--bg:#14161F;--surface:#1C1F2B;--ink:#E6E7EE;--muted:#A0A4B8;--faint:#767B91;--line:#2C3040;--line-strong:#3B4054;--nav:#3A121E;--nav-active:#5A2031;--lens:#7FA2EC;--lens-soft:#1E2A45;--ok:#5CC99A;--ok-soft:#173327;--warn:#E7B45C;--warn-soft:#3A2D14;--console:#171A24;--scrim:rgba(0,0,0,.6)}
 html,body{height:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--sans)}
@@ -21,10 +23,24 @@ button:focus-visible{outline:2px solid var(--lens);outline-offset:2px}
 .nav ul{list-style:none;margin:0;padding:0}.nav li{padding:7px 10px;border-radius:8px;font-size:14px;color:rgba(255,255,255,.86);cursor:pointer}
 .nav li:hover{background:rgba(255,255,255,.07)}
 .nav li.active{background:var(--nav-active);color:#fff;font-weight:600}
+.nav-top{display:none}
+.nav-close{display:none}
 main{padding:24px 32px 48px;max-width:1260px;width:100%}
 .hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:start;margin-bottom:18px}
 .hero h2{margin:0;font-size:26px;font-weight:700;letter-spacing:-.01em}
 .hero p{margin:6px 0 10px;color:var(--muted);max-width:58ch}
+.hero .eyebrow{margin:0 0 6px;font:700 12px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--lens)}
+.hero .lede{margin:6px 0 12px;color:var(--muted);max-width:58ch}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.pills span{font:600 11px var(--mono);letter-spacing:.03em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line-strong);border-radius:999px;padding:4px 12px;background:var(--surface)}
+.inside{margin:4px 0 22px}
+.inside h3{margin:0 0 10px;font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.02em;text-transform:uppercase}
+.inside-row{display:flex;gap:10px;flex-wrap:wrap}
+.inside-card{flex:1 1 220px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-radius:10px;background:var(--surface);border:1px solid var(--line);text-decoration:none;color:inherit}
+.inside-card:hover{border-color:var(--line-strong)}
+.inside-card b{display:block;font-size:13.5px;font-weight:700}
+.inside-card span{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+.inside-card .go{color:var(--lens);font-weight:700;white-space:nowrap}
 .site-foot{margin-top:28px;font-size:12.5px;color:var(--faint);text-align:center}
 .site-foot a{color:var(--lens);text-decoration:none}.site-foot a:hover{text-decoration:underline}
 .strip{display:flex;flex-direction:column;align-items:center;gap:2px}.strip h3{margin:0;font-size:15px;font-weight:700}.strip p{margin:0;font-size:12px;color:var(--muted)}
@@ -123,10 +139,22 @@ main{padding:24px 32px 48px;max-width:1260px;width:100%}
 .pages figcaption{font-size:12px;color:var(--faint);margin-top:4px}
 @media (max-width:1000px){.focusgrid{grid-template-columns:1fr}}
 @media (max-width:900px){
-  .app{grid-template-columns:1fr}.nav{padding:14px}.nav .groups{display:none}.brand{padding:0 4px}
+  .app{grid-template-columns:1fr}
+  .nav-top{display:flex;align-items:center;gap:10px;padding:calc(12px + env(safe-area-inset-top,0px)) 16px 12px;background:var(--nav)}
+  .nav-top-brand strong{display:block;font-size:15px;color:#fff}
+  .nav-top-brand span{display:block;font-size:11px;color:rgba(255,255,255,.72)}
+  .hamburger{flex:none;width:34px;height:34px;border:0;border-radius:8px;background:transparent;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px}
+  .hamburger:hover{background:rgba(255,255,255,.12)}
+  .hamburger span{display:block;width:18px;height:2px;background:#fff;border-radius:2px}
+  .nav{position:fixed;top:0;left:-280px;bottom:0;width:min(280px,82vw);padding:0 14px 20px;z-index:22;overflow:auto;transition:left .25s ease}
+  .nav.open{left:0}
+  .nav .groups{display:block}
+  .nav-head{display:flex;justify-content:space-between;align-items:flex-start;padding:calc(16px + env(safe-area-inset-top,0px)) 2px 10px}
+  .nav-close{display:grid;place-items:center;width:28px;height:28px;border:0;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;font-size:13px}
   main{padding:18px 14px 32px}
   .hero{grid-template-columns:1fr}.strip{align-items:flex-start}
   .pose{width:62px}.pose svg{width:50px;height:50px}
+  .inside-card{flex:1 1 100%}
   .row{grid-template-columns:minmax(0,1fr);grid-template-areas:"time" "who" "stat" "acts";gap:6px;padding:14px}.row .stat{text-align:left}
   .acts .btn{flex:1 1 auto}
   .ev{grid-template-columns:52px 62px minmax(0,1fr)}.ev .a,.ev .ty{display:none}

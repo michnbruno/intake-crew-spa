@@ -2,6 +2,7 @@ import CrewIcon from "./CrewIcon.jsx";
 import { AGENTS } from "../data/agents.js";
 
 const CREW_ORDER = ["triage", "extractor", "validator", "summary"];
+const STACK = ["Azure AI Foundry", "Content Understanding", "Document Intelligence", "Azure SQL", ".NET", "React · Vite"];
 
 // No construction banner, no "preview"/soon framing — just the crew and a live caption.
 // The per-agent "is doing X" pill lives in Tracker, right beside the step it's working on.
@@ -9,9 +10,19 @@ export default function Hero({ activeAgent, running, captionText, captionLevel }
   return (
     <section className="hero">
       <div>
-        <h2>Today's intake</h2>
-        <p>The crew classifies, extracts, and validates each patient packet before it reaches the front desk.</p>
-        <div className={`caption`}>
+        <p className="eyebrow">Agentic AI · Azure AI Foundry</p>
+        <h2>Multi-Agent Pipeline</h2>
+        <p className="lede">
+          Triage, Extractor, Validator, and Summary are custom-created Foundry agents that persist in the
+          Foundry project.
+          <br />
+          The eye-care front desk is the demo scenario — the agents provide the backend orchestration,
+          extraction, and validation for processing submitted paperwork/forms.
+        </p>
+        <div className="pills">
+          {STACK.map(item => <span key={item}>{item}</span>)}
+        </div>
+        <div className="caption">
           <i style={{ background: captionLevel === "warn" ? "var(--warn)" : captionLevel === "ok" ? "var(--ok)" : "var(--lens)" }} />
           <span>{captionText || "Pick a packet below to watch the crew work."}</span>
           {running && <span className="dots"><span>.</span><span>.</span><span>.</span></span>}

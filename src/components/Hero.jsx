@@ -13,11 +13,12 @@ export default function Hero({ activeAgent, running, captionText, captionLevel }
         <p className="eyebrow">Agentic AI · Azure AI Foundry</p>
         <h2>Multi-Agent Pipeline</h2>
         <p className="lede">
-          Triage, Extractor, Validator, and Summary are custom-created Foundry agents that persist in the
-          Foundry project.
-          <br />
-          The eye-care front desk is the demo scenario — the agents provide the backend orchestration,
-          extraction, and validation for processing submitted paperwork/forms.
+          Triage, Extractor, Validator, and Summary are custom-created AI agents that persist in an Azure
+          Foundry project. The eye-care front desk is the demo scenario.
+        </p>
+        <p className="lede">
+          The agents provide the backend orchestration, extraction, and validation for submitted
+          paperwork/forms.
         </p>
         <div className="pills">
           {STACK.map(item => <span key={item}>{item}</span>)}

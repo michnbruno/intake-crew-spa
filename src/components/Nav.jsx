@@ -1,10 +1,20 @@
 // Sidebar on desktop, hamburger-triggered flyout on mobile — same markup both ways, CSS
-// repositions it under 900px. "Views" is the one group today; Pass 2 adds an "About" group
-// (FAQ / how this was built) once that page exists.
-const ITEMS = [
-  { id: "schedule", label: "Today's schedule" },
-  { id: "tracker", label: "Agent tracker" },
-  { id: "console", label: "Event console" }
+// repositions it under 900px.
+const GROUPS = [
+  {
+    title: "Views",
+    items: [
+      { id: "schedule", label: "Today's schedule" },
+      { id: "tracker", label: "Agent tracker" },
+      { id: "console", label: "Event console" }
+    ]
+  },
+  {
+    title: "About",
+    items: [
+      { id: "faq", label: "How this was built" }
+    ]
+  }
 ];
 
 export default function Nav({ active, onSelect, open, onOpenChange }) {
@@ -35,20 +45,22 @@ export default function Nav({ active, onSelect, open, onOpenChange }) {
           </div>
           <button className="nav-close" aria-label="Close menu" onClick={() => onOpenChange(false)}>✕</button>
         </div>
-        <div className="groups">
-          <h2>Views</h2>
-          <ul>
-            {ITEMS.map(item => (
-              <li
-                key={item.id}
-                className={item.id === active ? "active" : ""}
-                onClick={() => pick(item.id)}
-              >
-                {item.label}
-              </li>
-            ))}
-          </ul>
-        </div>
+        {GROUPS.map(group => (
+          <div className="groups" key={group.title}>
+            <h2>{group.title}</h2>
+            <ul>
+              {group.items.map(item => (
+                <li
+                  key={item.id}
+                  className={item.id === active ? "active" : ""}
+                  onClick={() => pick(item.id)}
+                >
+                  {item.label}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </nav>
     </>
   );

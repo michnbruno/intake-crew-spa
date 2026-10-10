@@ -7,8 +7,12 @@ import Report from "./components/Report.jsx";
 import EventConsole from "./components/EventConsole.jsx";
 import Drawer from "./components/Drawer.jsx";
 import PacketPages from "./components/PacketPages.jsx";
+import QnaStrip from "./components/QnaStrip.jsx";
+import FaqModal from "./components/FaqModal.jsx";
+import FaqPage from "./components/FaqPage.jsx";
 import { SCHEDULE } from "./data/schedule.js";
 import { REPORTS } from "./data/reports.js";
+import { FAQ_TOPICS } from "./data/faq.js";
 import { createRunEventSource } from "./lib/eventSource.js";
 import { deriveRunState } from "./lib/deriveRunState.js";
 
@@ -20,14 +24,16 @@ export default function App() {
   const [runStates, setRunStates] = useState({});
   const [drawer, setDrawer] = useState(null);
   const [navOpen, setNavOpen] = useState(false);
+  const [qnaItem, setQnaItem] = useState(null);
+  const [faqSelected, setFaqSelected] = useState(FAQ_TOPICS[0].questions[0].id);
   const sources = useRef({});
   const startedAt = useRef({});
 
-  // Lock background scroll while the mobile flyout nav is open.
+  // Lock background scroll while the mobile flyout nav or the Q&A modal is open.
   useEffect(() => {
-    document.body.style.overflow = navOpen ? "hidden" : "";
+    document.body.style.overflow = (navOpen || qnaItem) ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
-  }, [navOpen]);
+  }, [navOpen, qnaItem]);
 
   function patchRun(personaId, patch) {
     setRunStates(prev => ({
@@ -100,14 +106,28 @@ export default function App() {
           captionLevel={captionLevel}
         />
 
+        <QnaStrip onPick={setQnaItem} />
+
+        {view === "faq" && (
+          <FaqPage topics={FAQ_TOPICS} selectedId={faqSelected} onSelect={setFaqSelected} />
+        )}
+
         {view === "schedule" && (
-          <ScheduleBoard
-            runStates={runStatesForBoard}
-            focusId={focusId}
-            onSubmit={submit}
-            onViewPackets={id => setDrawer({ type: "packet", personaId: id })}
-            onViewReport={id => { setFocusId(id); setDrawer({ type: "report", personaId: id }); }}
-          />
+          <>
+            <h3 className="view-head">Brightview Eye Care Daily Schedule</h3>
+            {Object.keys(runStatesForBoard).length === 0 && (
+              <div className="hint">
+                <span>Click <b>Submit packet</b> on any patient below to watch the crew work, live.</span>
+              </div>
+            )}
+            <ScheduleBoard
+              runStates={runStatesForBoard}
+              focusId={focusId}
+              onSubmit={submit}
+              onViewPackets={id => setDrawer({ type: "packet", personaId: id })}
+              onViewReport={id => { setFocusId(id); setDrawer({ type: "report", personaId: id }); }}
+            />
+          </>
         )}
 
         {view === "tracker" && (
@@ -121,7 +141,10 @@ export default function App() {
           <EventConsole events={focusState ? focusState.events : []} />
         )}
 
-        <p className="site-foot">Intake Crew — a portfolio project by Mike Bruno.</p>
+        <p className="site-foot">
+          Intake Crew — a portfolio project by Mike Bruno, built in partnership with Claude (Anthropic),
+          with additional implementation support from Codex.
+        </p>
       </main>
 
       {drawer && drawer.type === "packet" && (
@@ -147,6 +170,12 @@ export default function App() {
           />
         </Drawer>
       )}
+
+      <FaqModal
+        item={qnaItem}
+        onClose={() => setQnaItem(null)}
+        onReadMore={id => { setFaqSelected(id); setView("faq"); setQnaItem(null); }}
+      />
     </div>
   );
 }

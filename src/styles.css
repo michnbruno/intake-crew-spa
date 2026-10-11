@@ -78,6 +78,7 @@ main{padding:24px 32px 48px;max-width:1260px;width:100%}
 .site-foot{margin-top:28px;font-size:12.5px;color:var(--faint);text-align:center}
 .site-foot a{color:var(--lens);text-decoration:none}.site-foot a:hover{text-decoration:underline}
 .strip{display:flex;flex-direction:column;align-items:center;gap:2px}.strip h3{margin:0;font-size:15px;font-weight:700}.strip p{margin:0;font-size:12px;color:var(--muted)}
+.crew-mobile{display:none}
 .crewrow{display:flex;gap:4px;align-items:flex-end}
 .pose{display:flex;flex-direction:column;align-items:center;width:70px;opacity:1;transition:opacity .3s}
 .crewrow.running .pose:not(.active){opacity:.75}
@@ -181,11 +182,13 @@ main{padding:24px 32px 48px;max-width:1260px;width:100%}
   .nav-head{display:flex;justify-content:space-between;align-items:flex-start;padding:calc(16px + env(safe-area-inset-top,0px)) 2px 10px}
   .nav-close{display:grid;place-items:center;width:28px;height:28px;border:0;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;font-size:13px}
   main{padding:18px 14px 32px}
+  .hero{grid-template-columns:1fr;padding-bottom:16px;border-bottom:1px solid var(--line)}
+  .hero h2{font-size:22px}
   .pills{display:none}
-  .strip h3,.strip > p{display:none}
-  .crewrow{gap:3px}
-  .pose{width:40px}.pose svg{width:34px;height:34px}
-  .pose span{display:none}
+  .strip-desktop{display:none}
+  .crew-mobile{display:flex;flex-direction:column;align-items:center;gap:2px;margin:18px 0 20px}
+  .crew-mobile h3{margin:0;font-size:16px;font-weight:700}
+  .crew-mobile p{margin:0 0 10px;font-size:12px;color:var(--muted)}
   .inside-card{flex:1 1 100%}
   .row{grid-template-columns:minmax(0,1fr);grid-template-areas:"time" "who" "stat" "acts";gap:6px;padding:14px}.row .stat{text-align:left}
   .acts .btn{flex:1 1 auto}

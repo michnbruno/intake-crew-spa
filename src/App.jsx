@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Nav from "./components/Nav.jsx";
 import Hero from "./components/Hero.jsx";
+import IntakeCrew from "./components/IntakeCrew.jsx";
 import ScheduleBoard from "./components/ScheduleBoard.jsx";
 import Tracker from "./components/Tracker.jsx";
 import Report from "./components/Report.jsx";
@@ -101,6 +102,13 @@ export default function App() {
           activeAgent={activeAgent}
           running={focusState ? focusState.status === "running" : false}
         />
+
+        {view === "schedule" && (
+          <IntakeCrew
+            activeAgent={activeAgent}
+            running={focusState ? focusState.status === "running" : false}
+          />
+        )}
 
         {view === "faq" && (
           <FaqPage topics={FAQ_TOPICS} initialId={faqSelected} />

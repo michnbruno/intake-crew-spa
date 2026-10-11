@@ -4,21 +4,22 @@ import { AGENTS } from "../data/agents.js";
 const CREW_ORDER = ["triage", "extractor", "validator", "summary"];
 const STACK = ["Azure AI Foundry", "Content Understanding", "Document Intelligence", "Azure SQL", ".NET", "React · Vite"];
 
-// Deliberately short: eyebrow + headline + one line + pills (desktop only — see styles.css).
-// The crew strip stays pinned in the corner on every breakpoint, including mobile, since it's
-// the visual anchor the floating guide callout is positioned around.
+// Global header, rendered on every view. Desktop: unchanged two-column layout, crew strip
+// pinned top-right on every page — there's plenty of room. Mobile: the "strip-desktop" crew
+// column is hidden (styles.css) since it's replaced there by a full-size, home-page-only
+// block that stacks under the header text (see IntakeCrew.jsx).
 export default function Hero({ activeAgent, running }) {
   return (
     <section className="hero">
       <div>
-        <p className="eyebrow">Agentic AI · Azure AI Foundry</p>
+        <p className="eyebrow">AI · Azure Foundry</p>
         <h2>Multi-Agent Pipeline</h2>
-        <p className="lede">AI Agents in an Azure Foundry project processing intake forms/documents.</p>
+        <p className="lede">AI agents processing intake forms and documents.</p>
         <div className="pills">
           {STACK.map(item => <span key={item}>{item}</span>)}
         </div>
       </div>
-      <div className="strip">
+      <div className="strip strip-desktop">
         <h3>The crew</h3>
         <p>Triage · Extractor · Validator · Summary</p>
         <div className={`crewrow${running ? " running" : ""}`}>

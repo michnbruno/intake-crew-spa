@@ -10,6 +10,7 @@ import PacketPages from "./components/PacketPages.jsx";
 import QnaStrip from "./components/QnaStrip.jsx";
 import FaqModal from "./components/FaqModal.jsx";
 import FaqPage from "./components/FaqPage.jsx";
+import GuideCallout from "./components/GuideCallout.jsx";
 import { SCHEDULE } from "./data/schedule.js";
 import { REPORTS } from "./data/reports.js";
 import { FAQ_TOPICS } from "./data/faq.js";
@@ -26,6 +27,7 @@ export default function App() {
   const [navOpen, setNavOpen] = useState(false);
   const [qnaItem, setQnaItem] = useState(null);
   const [faqSelected, setFaqSelected] = useState(FAQ_TOPICS[0].questions[0].id);
+  const [guideOpen, setGuideOpen] = useState(true);
   const sources = useRef({});
   const startedAt = useRef({});
 
@@ -81,13 +83,9 @@ export default function App() {
 
   // Map active stage id -> agent id, for highlighting the right crew member in the Hero strip.
   const STAGE_AGENT = { triage: "triage", extract: "extractor", validate: "validator", summary: "summary" };
-  let captionText = null;
-  let captionLevel = "run";
   let activeAgent = null;
   if (focusState && focusState.derived) {
     activeAgent = STAGE_AGENT[focusState.derived.active] || null;
-    captionText = focusState.derived.lastText;
-    captionLevel = focusState.status === "done" ? (focusState.outcome && focusState.outcome.level === "warn" ? "warn" : "ok") : "run";
   }
 
   const runStatesForBoard = {};
@@ -102,24 +100,15 @@ export default function App() {
         <Hero
           activeAgent={activeAgent}
           running={focusState ? focusState.status === "running" : false}
-          captionText={captionText}
-          captionLevel={captionLevel}
         />
 
-        <QnaStrip onPick={setQnaItem} />
-
         {view === "faq" && (
-          <FaqPage topics={FAQ_TOPICS} selectedId={faqSelected} onSelect={setFaqSelected} />
+          <FaqPage topics={FAQ_TOPICS} initialId={faqSelected} />
         )}
 
         {view === "schedule" && (
           <>
             <h3 className="view-head">Brightview Eye Care Daily Schedule</h3>
-            {Object.keys(runStatesForBoard).length === 0 && (
-              <div className="hint">
-                <span>Click <b>Submit packet</b> on any patient below to watch the crew work, live.</span>
-              </div>
-            )}
             <ScheduleBoard
               runStates={runStatesForBoard}
               focusId={focusId}
@@ -140,6 +129,8 @@ export default function App() {
         {view === "console" && (
           <EventConsole events={focusState ? focusState.events : []} />
         )}
+
+        <QnaStrip onPick={setQnaItem} />
 
         <p className="site-foot">
           Intake Crew — a portfolio project by Mike Bruno, built in partnership with Claude (Anthropic),
@@ -176,6 +167,8 @@ export default function App() {
         onClose={() => setQnaItem(null)}
         onReadMore={id => { setFaqSelected(id); setView("faq"); setQnaItem(null); }}
       />
+
+      {guideOpen && <GuideCallout onClose={() => setGuideOpen(false)} />}
     </div>
   );
 }

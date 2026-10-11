@@ -1,53 +1,56 @@
-import { useRef } from "react";
+import { useEffect, useState } from "react";
 
-// Split layout on desktop (question list + answer pane, docs-site style); stacks on mobile,
-// with a tap scrolling the detail pane into view instead of navigating away from the list.
-export default function FaqPage({ topics, selectedId, onSelect }) {
-  const detailRef = useRef(null);
-  const flat = topics.flatMap(t => t.questions.map(q => ({ ...q, topic: t.title })));
-  const current = flat.find(q => q.id === selectedId) || flat[0];
+const INTRO = "Triage, Extractor, Validator, and Summary are custom-created AI agents that persist in an " +
+  "Azure Foundry project, handling the backend orchestration, extraction, and validation for a fictional " +
+  "eye-care front desk's intake packets. The sections below cover how it's actually built, topic by topic " +
+  "— click a question to expand it.";
 
-  function pick(id) {
-    onSelect(id);
-    if (window.innerWidth <= 900 && detailRef.current) {
-      requestAnimationFrame(() => detailRef.current.scrollIntoView({ behavior: "smooth", block: "start" }));
+// Topic-grouped accordion — collapse/expand in place, no separate detail pane. `initialId`
+// (set when a visitor arrives here via "Read the full writeup" from the home-page modal) opens
+// that one question and scrolls it into view on mount.
+export default function FaqPage({ topics, initialId }) {
+  const [openId, setOpenId] = useState(initialId || topics[0]?.questions[0]?.id || null);
+
+  useEffect(() => {
+    if (initialId) {
+      document.getElementById(`faq-${initialId}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function toggle(id) {
+    setOpenId(prev => (prev === id ? null : id));
   }
 
   return (
     <div className="faqpage">
-      <aside className="faq-list">
-        {topics.map(topic => (
-          <div key={topic.id} className="faq-group">
-            <h4>{topic.title}</h4>
-            <ul>
-              {topic.questions.map(q => (
-                <li
-                  key={q.id}
-                  className={current && current.id === q.id ? "active" : ""}
-                  onClick={() => pick(q.id)}
-                >
-                  {q.q}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </aside>
-      <div className="faq-detail" ref={detailRef}>
-        {current && (
-          <>
-            <p className="faq-detail-tag">{current.topic}</p>
-            <h3>{current.q}</h3>
-            <p className="faq-detail-a">{current.a}</p>
-            {current.learnUrl && (
-              <a className="faqmodal-learn" href={current.learnUrl} target="_blank" rel="noreferrer">
-                Microsoft Learn — {current.learnLabel} ↗
-              </a>
-            )}
-          </>
-        )}
-      </div>
+      <p className="faqpage-intro">{INTRO}</p>
+      {topics.map(topic => (
+        <div key={topic.id} className="faq-topic">
+          <h4>{topic.title}</h4>
+          {topic.questions.map(q => {
+            const open = openId === q.id;
+            return (
+              <div key={q.id} id={`faq-${q.id}`} className={`faq-item${open ? " open" : ""}`}>
+                <button className="faq-q" onClick={() => toggle(q.id)} aria-expanded={open}>
+                  <span>{q.q}</span>
+                  <span className="faq-caret">{open ? "–" : "+"}</span>
+                </button>
+                {open && (
+                  <div className="faq-a">
+                    <p>{q.a}</p>
+                    {q.learnUrl && (
+                      <a className="faqmodal-learn" href={q.learnUrl} target="_blank" rel="noreferrer">
+                        Microsoft Learn — {q.learnLabel} ↗
+                      </a>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      ))}
     </div>
   );
 }

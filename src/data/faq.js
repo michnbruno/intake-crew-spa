@@ -26,7 +26,7 @@ export const FAQ_TOPICS = [
       {
         id: "agent-roles",
         q: "What does each agent actually do?",
-        a: "Triage classifies each uploaded page. Extractor pulls structured fields out of it. Validator cross-checks those fields against policy and runs an eligibility check. Summary drafts the front-desk-facing report."
+        a: "Triage calls Content Understanding to classify each uploaded page. Extractor calls Document Intelligence to pull structured fields out of it. Validator cross-checks those fields against policy and calls the mock payer endpoint for an eligibility check. Summary is pure LLM reasoning over the accumulated run context — no external tool call — to draft the front-desk report."
       }
     ]
   },
@@ -118,8 +118,8 @@ export const FAQ_TOPICS = [
       {
         id: "real-or-mocked",
         featured: true,
-        q: "Is this really calling Azure AI Foundry, or is it mocked?",
-        a: "What you see by default is a recorded run, by design. A password-gated path runs the real, live pipeline for demos and interviews.",
+        q: "Does \"Submit packet\" hit Azure Foundry directly?",
+        a: "What you see by default is a recorded run. A password-gated path runs the real, live pipeline where Foundry/Agents capabilities are called directly.",
         learnLabel: "Azure AI Foundry Agent Service overview",
         learnUrl: "https://learn.microsoft.com/en-us/azure/ai-services/agents/overview"
       },
@@ -127,7 +127,7 @@ export const FAQ_TOPICS = [
         id: "cost-guardrail",
         featured: true,
         q: "What keeps a public demo like this from running up a real Azure bill?",
-        a: "The default path never touches a live model — it replays a recorded run. The real pipeline sits behind a short-lived, server-verified token, not just a client-side check, so it can't be reached by guessing a URL.",
+        a: "The default \"Submit packet\" runs are recorded. The pipeline that hits Azure resources is password-protected to avoid over-use.",
         learnLabel: "Azure Cost Management + Billing overview",
         learnUrl: "https://learn.microsoft.com/en-us/azure/cost-management-billing/cost-management-billing-overview"
       }

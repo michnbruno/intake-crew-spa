@@ -67,6 +67,10 @@ export default function App() {
       },
       () => {
         patchRun(personaId, { status: "done" });
+        // Surface completion unmistakably: open the report the moment the run finishes,
+        // regardless of which view the visitor is on.
+        setFocusId(personaId);
+        setDrawer({ type: "report", personaId });
       }
     );
   }
@@ -170,11 +174,7 @@ export default function App() {
         </Drawer>
       )}
 
-      <FaqModal
-        item={qnaItem}
-        onClose={() => setQnaItem(null)}
-        onReadMore={id => { setFaqSelected(id); setView("faq"); setQnaItem(null); }}
-      />
+      <FaqModal item={qnaItem} onClose={() => setQnaItem(null)} />
 
       {guideOpen && <GuideCallout onClose={() => setGuideOpen(false)} />}
     </div>

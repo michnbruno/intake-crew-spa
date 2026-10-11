@@ -192,6 +192,6 @@ main{padding:24px 32px 48px;max-width:1260px;width:100%}
   .inside-card{flex:1 1 100%}
   .row{grid-template-columns:minmax(0,1fr);grid-template-areas:"time" "who" "stat" "acts";gap:6px;padding:14px}.row .stat{text-align:left}
   .acts .btn{flex:1 1 auto}
-  .ev{grid-template-columns:52px 62px minmax(0,1fr)}.ev .a,.ev .ty{display:none}
+  .ev{grid-template-columns:52px minmax(0,1fr)}.ev .a,.ev .ty{display:none}
   .kv{grid-template-columns:96px minmax(0,1fr)}
 }

@@ -1,6 +1,7 @@
-// Short-answer popup for a featured question: quick to read, then a link into the full FAQ
-// page for the deeper treatment, plus the Microsoft Learn reference for the underlying service.
-export default function FaqModal({ item, onClose, onReadMore }) {
+// Short-answer popup for a featured question: quick to read, plus the Microsoft Learn
+// reference for the underlying service. (The deeper "How this was built" page is still
+// reachable from the nav — just not linked from here, for now.)
+export default function FaqModal({ item, onClose }) {
   if (!item) return null;
   return (
     <>
@@ -10,16 +11,13 @@ export default function FaqModal({ item, onClose, onReadMore }) {
         <p className="faqmodal-tag">{item.topic}</p>
         <h4>{item.q}</h4>
         <p className="faqmodal-a">{item.a}</p>
-        <div className="faqmodal-links">
-          <button className="faqmodal-more" onClick={() => onReadMore(item.id)}>
-            Read the full writeup →
-          </button>
-          {item.learnUrl && (
+        {item.learnUrl && (
+          <div className="faqmodal-links">
             <a className="faqmodal-learn" href={item.learnUrl} target="_blank" rel="noreferrer">
               Microsoft Learn — {item.learnLabel} ↗
             </a>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </>
   );

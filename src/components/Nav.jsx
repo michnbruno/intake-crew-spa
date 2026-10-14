@@ -61,6 +61,12 @@ export default function Nav({ active, onSelect, open, onOpenChange }) {
             </ul>
           </div>
         ))}
+        <div className="nav-foot">
+          <a href="https://mbruno-projects.com" target="_blank" rel="noreferrer">
+            <strong>All Projects</strong>
+            <span>mbruno-projects.com</span>
+          </a>
+        </div>
       </nav>
     </>
   );

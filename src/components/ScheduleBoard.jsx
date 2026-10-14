@@ -1,4 +1,5 @@
 import { SCHEDULE } from "../data/schedule.js";
+import { getScheduleDate, formatScheduleDate } from "../lib/scheduleDate.js";
 
 function Badge({ state, outcome }) {
   if (state === "running") return <span className="badge run">In progress</span>;
@@ -16,7 +17,7 @@ export default function ScheduleBoard({ runStates, focusId, onSubmit, onViewPack
     <div className="card">
       <div className="sched-top">
         <div>
-          <h3>Friday, October 2</h3>
+          <h3>{formatScheduleDate(getScheduleDate())}</h3>
           <p>Five patients on the morning schedule.</p>
         </div>
       </div>
@@ -29,7 +30,7 @@ export default function ScheduleBoard({ runStates, focusId, onSubmit, onViewPack
             <div className="who">
               <b>{p.first} "{p.nick}" {p.last}</b>
               <small>{p.about}</small>
-              {p.submitted && <small>Submitted {p.submitted}</small>}
+              {p.submitted && <small>{p.submitted}</small>}
             </div>
             <div className="stat">
               <Badge state={rs.status} outcome={rs.outcome} />

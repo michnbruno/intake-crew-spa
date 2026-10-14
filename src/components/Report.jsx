@@ -1,3 +1,5 @@
+import { getScheduleDate, formatScheduleDate, PLACEHOLDER_DATE } from "../lib/scheduleDate.js";
+
 // Front-desk summary, shown once a run reaches an outcome. Content comes from
 // REPORTS (stand-in until 9.2 wires real Summary-agent output per run).
 export default function Report({ report, approved, onApprove }) {
@@ -5,10 +7,12 @@ export default function Report({ report, approved, onApprove }) {
     return <div className="wait-report">The summary will appear here once the crew finishes.</div>;
   }
 
+  const line = report.line.replace(PLACEHOLDER_DATE, formatScheduleDate(getScheduleDate()));
+
   return (
     <div className="report">
       <h4>Patient</h4>
-      <p>{report.name}<br /><span style={{ color: "var(--muted)" }}>{report.line}</span></p>
+      <p>{report.name}<br /><span style={{ color: "var(--muted)" }}>{line}</span></p>
 
       <div className={`banner ${report.level}`}>{report.banner}</div>
 

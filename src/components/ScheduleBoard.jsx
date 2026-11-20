@@ -19,6 +19,7 @@ export default function ScheduleBoard({ runStates, focusId, onSubmit, onViewPack
         <div>
           <h3>{formatScheduleDate(getScheduleDate())}</h3>
           <p>Five patients on the morning schedule.</p>
+          <p className="sched-hint">Pick a patient below and click <b>Submit packet</b> to send their paperwork through the agent crew.</p>
         </div>
       </div>
       {SCHEDULE.map(p => {
@@ -40,6 +41,11 @@ export default function ScheduleBoard({ runStates, focusId, onSubmit, onViewPack
                 <span className="btn ghost" style={{ cursor: "default" }}>No recording wired up yet</span>
               ) : (
                 <>
+                  <span className="submit-nudge" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M5 12h12M13 6l6 6-6 6" />
+                    </svg>
+                  </span>
                   <button
                     className="btn primary"
                     disabled={rs.status === "running"}

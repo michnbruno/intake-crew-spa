@@ -3,7 +3,7 @@ import { AGENTS } from "../data/agents.js";
 
 const CREW_ORDER = ["triage", "extractor", "validator", "summary"];
 
-// Mobile-only, home-page-only crew showcase (see App.jsx — rendered just for the schedule
+// Mobile-only, home-page-only crew showcase (see App.jsx — rendered just for the home
 // view) that stacks full-size underneath the header text. On desktop this stays hidden
 // (styles.css) since Hero's own corner-pinned crew strip already covers it there. Full
 // size everywhere it shows — no shrink/hide rules like the old Pass-3 corner-pinned

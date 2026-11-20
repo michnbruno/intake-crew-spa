@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Nav from "./components/Nav.jsx";
+import Home from "./components/Home.jsx";
 import Hero from "./components/Hero.jsx";
 import IntakeCrew from "./components/IntakeCrew.jsx";
 import ScheduleBoard from "./components/ScheduleBoard.jsx";
@@ -11,7 +12,7 @@ import PacketPages from "./components/PacketPages.jsx";
 import QnaStrip from "./components/QnaStrip.jsx";
 import FaqModal from "./components/FaqModal.jsx";
 import FaqPage from "./components/FaqPage.jsx";
-import GuideCallout from "./components/GuideCallout.jsx";
+import Diagrams from "./components/Diagrams.jsx";
 import { SCHEDULE } from "./data/schedule.js";
 import { REPORTS } from "./data/reports.js";
 import { FAQ_TOPICS } from "./data/faq.js";
@@ -21,14 +22,13 @@ import { deriveRunState } from "./lib/deriveRunState.js";
 const emptyRunState = () => ({ status: "none", events: [], derived: null, outcome: null, approved: false });
 
 export default function App() {
-  const [view, setView] = useState("schedule");
+  const [view, setView] = useState("home");
   const [focusId, setFocusId] = useState(null);
   const [runStates, setRunStates] = useState({});
   const [drawer, setDrawer] = useState(null);
   const [navOpen, setNavOpen] = useState(false);
   const [qnaItem, setQnaItem] = useState(null);
   const [faqSelected, setFaqSelected] = useState(FAQ_TOPICS[0].questions[0].id);
-  const [guideOpen, setGuideOpen] = useState(true);
   const sources = useRef({});
   const startedAt = useRef({});
 
@@ -107,7 +107,11 @@ export default function App() {
           running={focusState ? focusState.status === "running" : false}
         />
 
-        {view === "schedule" && (
+        {view === "home" && (
+          <Home onEnterDemo={() => setView("schedule")} />
+        )}
+
+        {view === "home" && (
           <IntakeCrew
             activeAgent={activeAgent}
             running={focusState ? focusState.status === "running" : false}
@@ -117,6 +121,8 @@ export default function App() {
         {view === "faq" && (
           <FaqPage topics={FAQ_TOPICS} initialId={faqSelected} />
         )}
+
+        {view === "diagrams" && <Diagrams />}
 
         {view === "schedule" && (
           <>
@@ -175,8 +181,6 @@ export default function App() {
       )}
 
       <FaqModal item={qnaItem} onClose={() => setQnaItem(null)} />
-
-      {guideOpen && <GuideCallout onClose={() => setGuideOpen(false)} />}
     </div>
   );
 }

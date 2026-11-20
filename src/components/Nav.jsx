@@ -4,6 +4,7 @@ const GROUPS = [
   {
     title: "Views",
     items: [
+      { id: "home", label: "Home" },
       { id: "schedule", label: "Today's schedule" },
       { id: "tracker", label: "Agent tracker" },
       { id: "console", label: "Event console" }
@@ -12,7 +13,8 @@ const GROUPS = [
   {
     title: "About",
     items: [
-      { id: "faq", label: "How this was built" }
+      { id: "faq", label: "How this was built" },
+      { id: "diagrams", label: "Architecture diagrams" }
     ]
   }
 ];

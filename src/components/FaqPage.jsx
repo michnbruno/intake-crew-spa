@@ -9,7 +9,10 @@ const INTRO = "Triage, Extractor, Validator, and Summary are custom-created AI a
 // (set when a visitor arrives here via "Read the full writeup" from the home-page modal) opens
 // that one question and scrolls it into view on mount.
 export default function FaqPage({ topics, initialId }) {
-  const [openId, setOpenId] = useState(initialId || topics[0]?.questions[0]?.id || null);
+  // Independent multi-open accordion: each question tracks its own open/closed state, so
+  // expanding one never collapses another. All collapsed by default; a deep link (initialId,
+  // arriving via "Read the full writeup" from the home-page modal) opens just that one question.
+  const [openIds, setOpenIds] = useState(() => new Set(initialId ? [initialId] : []));
 
   useEffect(() => {
     if (initialId) {
@@ -19,7 +22,11 @@ export default function FaqPage({ topics, initialId }) {
   }, []);
 
   function toggle(id) {
-    setOpenId(prev => (prev === id ? null : id));
+    setOpenIds(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
   }
 
   return (
@@ -29,7 +36,7 @@ export default function FaqPage({ topics, initialId }) {
         <div key={topic.id} className="faq-topic">
           <h4>{topic.title}</h4>
           {topic.questions.map(q => {
-            const open = openId === q.id;
+            const open = openIds.has(q.id);
             return (
               <div key={q.id} id={`faq-${q.id}`} className={`faq-item${open ? " open" : ""}`}>
                 <button className="faq-q" onClick={() => toggle(q.id)} aria-expanded={open}>

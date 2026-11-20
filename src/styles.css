@@ -170,7 +170,7 @@ main{padding:24px 32px 48px;max-width:1260px;width:100%}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:12px}
 .sched-top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
 .sched-top h3{margin:0;font-size:16px;font-weight:700}.sched-top p{margin:0;font-size:13px;color:var(--muted)}
-.sched-top .sched-hint{margin-top:8px;display:inline-flex;align-items:center;gap:6px;color:var(--ink);font-weight:600;background:#FDF6E6;border:1px solid rgba(168,106,18,.28);border-radius:8px;padding:6px 12px}
+.sched-top .sched-hint{margin-top:8px;display:inline-block;color:var(--ink);font-weight:600;background:#FDF6E6;border:1px solid rgba(168,106,18,.28);border-radius:8px;padding:6px 12px}
 .sched-top .sched-hint b{font-weight:700}
 .controls{display:flex;gap:8px;align-items:center}
 .row{display:grid;grid-template-columns:78px minmax(0,1fr) auto;grid-template-areas:"time who stat" ". acts acts";gap:8px 14px;align-items:center;padding:12px 18px;border-bottom:1px solid var(--line)}
